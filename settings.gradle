@@ -1,0 +1,3 @@
+rootProject.name = 'basketball-small-routine'
+include 'basketball-after-end'
+
