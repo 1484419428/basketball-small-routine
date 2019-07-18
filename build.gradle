@@ -1,3 +1,42 @@
-group 'basketball-small-routine'
-version '1.0-SNAPSHOT'
 
+buildscript { // buildscript 不能抽取出来，只能重复写。
+    ext{
+        sxGradleHome = "http://192.168.120.68/root/gradle-scripts/raw/master/"
+    }
+    apply from: sxGradleHome + 'maven.gradle'
+    apply from: sxGradleHome + 'spring-cloud-edgware.gradle' // 导入使用Spring Cloud及相应的Spring Boot版本号
+    apply from: sxGradleHome + 'call-hierarchy-version.gradle' // 分析服务接口调用依赖关系
+    repositories {
+        maven { url REPOSITORY_URL }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("com.suixingpay:call-hierarchy-gradle-plugin:${sxfCallHierarchyPluginVersion}")
+    }
+}
+subprojects {
+    // 参考 http://192.168.120.68/root/gradle-scripts
+    apply from: sxGradleHome + 'maven.gradle'
+    apply from: sxGradleHome + 'spring-cloud.gradle'
+    apply from: sxGradleHome + 'call-hierarchy.gradle'
+    apply from: sxGradleHome + 'jacoco.gradle'
+
+    group 'basketball-small-routine'
+    version '1.0-SNAPSHOT'
+    description = '配置中心' // 设置描述
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.1'
+        compile ("mysql:mysql-connector-java:5.1.24")
+        compile("org.projectlombok:lombok:1.18.2")
+        compile('io.springfox:springfox-swagger2:2.8.0')
+        compile('io.springfox:springfox-swagger-ui:2.8.0')
+        compile 'io.swagger:swagger-jersey2-jaxrs:1.5.8'
+        compile('com.mangofactory:swagger-springmvc:1.0.2')
+        compile('com.mangofactory:swagger-models:1.0.2')
+        compile('com.wordnik:swagger-annotations:1.3.11')
+    }
+}
