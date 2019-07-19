@@ -1,1 +1,11 @@
-spring
+mybatis:
+  mapper-locations: mybatisMapper/*.xml
+  configuration:
+    default-statement-timeout: 5
+  spring:
+    datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://172.16.40.144:3306/start?characterEncoding=utf8&useSSL=false
+      username: root
+      password: 123456
+
